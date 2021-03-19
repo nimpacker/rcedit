@@ -5,7 +5,7 @@ author        = "bung87"
 description   = "A new awesome nimble package"
 license       = "MIT"
 srcDir        = "src"
-
+installExt = @["nim","exe"]
 
 # Dependencies
 
