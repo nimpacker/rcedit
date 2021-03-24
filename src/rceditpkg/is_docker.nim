@@ -7,7 +7,7 @@ proc hasDockerEnv(): bool =
     result = false
 
 
-proc hasDockerCGroup(): auto = 
+proc hasDockerCGroup(): bool = 
   try:
     result = readFile("/proc/self/cgroup").contains("docker")
   except:

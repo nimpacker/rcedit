@@ -18,6 +18,6 @@ proc isWsl*():bool =
       result = not isDocker()
     else:
       result = false
-  except :
-    result = false;
+  except:
+    result = false
   

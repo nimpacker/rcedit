@@ -52,10 +52,10 @@ let pairSettings = @["version-string"]
 let singleSettings = @["file-version", "product-version", "icon", "requested-execution-level"]
 let noPrefixSettings = @["application-manifest"]
 
-proc rcedit*(winePath: Option[string], exe: string, options: Table[string, string], pairedOptions: Table[string, string]) =
+proc rcedit*(winePath: Option[string], exe: string, options: Table[string, string], pairedOptions: Table[string, string] = default(Table[string, string])) =
   # https://github.com/electron/rcedit
   let rceditExe = if arch == "64": "rcedit-x64.exe" else: "rcedit.exe"
-  let rcedit = ".." / "rcedit" / "bin" / rceditExe
+  let rcedit =  absolutePath( currentSourcePath.parentDir / "rceditpkg" / "bin" / rceditExe)
   var args: seq[string] = @[]
   for name in pairSettings:
     for key, value in pairedOptions:
@@ -68,8 +68,11 @@ proc rcedit*(winePath: Option[string], exe: string, options: Table[string, strin
       args.add([fmt"--{name}", options[name]])
   if not canRunWindowsExeNatively:
     putEnv("WINEDEBUG", "-all")
-    doAssert execCmdEx(determineWineWrapper(winePath) & " " & exe & " " & args.join(" ")).exitCode == 0
+    let cmd = determineWineWrapper(winePath) & " " & rcedit & " " & exe & " " & args.join(" ")
+    let code = execCmdEx(cmd).exitCode
+    if code != 0:
+      echo installInstructions()
   else:
-    doAssert execCmdEx(exe & " " & args.join(" ")).exitCode == 0
-
+    doAssert execCmdEx(rcedit & " " & exe & " " & args.join(" ")).exitCode == 0
+  
 
