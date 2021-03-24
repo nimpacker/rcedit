@@ -16,3 +16,9 @@ import rcedit
 
 rcedit(none(string), exePath, {"icon": icon}.toTable())
 ```
+
+suported `options`:  
+`"application-manifest","file-version", "product-version", "icon", "requested-execution-level"`  
+
+`pairedOptions`:  
+Use this option to change any supported properties, as described in the MSDN documentation [here](https://msdn.microsoft.com/en-us/library/windows/desktop/aa381058(v=vs.85).aspx)
