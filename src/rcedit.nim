@@ -1,6 +1,6 @@
 import options, strformat
 import os
-import ./rceditpkg/is_wsl
+import ./rcedit/is_wsl
 import tables
 import strformat, osproc, strutils
 
@@ -56,7 +56,7 @@ proc rcedit*(winePath: Option[string], exe: string, options: Table[string, strin
     string] = default(Table[string, string])) =
   # https://github.com/electron/rcedit
   let rceditExe = if arch == "64": "rcedit-x64.exe" else: "rcedit.exe"
-  let rcedit = absolutePath(currentSourcePath.parentDir / "rceditpkg" / "bin" / rceditExe)
+  let rcedit = absolutePath(currentSourcePath.parentDir / "rcedit" / "bin" / rceditExe)
   var args: seq[string] = @[]
   for name in pairSettings:
     for key, value in pairedOptions:
