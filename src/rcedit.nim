@@ -52,10 +52,11 @@ let pairSettings = @["version-string"]
 let singleSettings = @["file-version", "product-version", "icon", "requested-execution-level"]
 let noPrefixSettings = @["application-manifest"]
 
-proc rcedit*(winePath: Option[string], exe: string, options: Table[string, string], pairedOptions: Table[string, string] = default(Table[string, string])) =
+proc rcedit*(winePath: Option[string], exe: string, options: Table[string, string], pairedOptions: Table[string,
+    string] = default(Table[string, string])) =
   # https://github.com/electron/rcedit
   let rceditExe = if arch == "64": "rcedit-x64.exe" else: "rcedit.exe"
-  let rcedit =  absolutePath( currentSourcePath.parentDir / "rceditpkg" / "bin" / rceditExe)
+  let rcedit = absolutePath(currentSourcePath.parentDir / "rceditpkg" / "bin" / rceditExe)
   var args: seq[string] = @[]
   for name in pairSettings:
     for key, value in pairedOptions:
@@ -74,5 +75,5 @@ proc rcedit*(winePath: Option[string], exe: string, options: Table[string, strin
       echo installInstructions()
   else:
     doAssert execCmdEx(rcedit & " " & exe & " " & args.join(" ")).exitCode == 0
-  
+
 

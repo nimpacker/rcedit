@@ -4,7 +4,7 @@ import ./is_docker
 when defined(posix):
   import posix_utils
 
-proc isWsl*():bool =
+proc isWsl*(): bool =
   when not defined(linux):
     result = false
   let release = uname().release
@@ -20,4 +20,3 @@ proc isWsl*():bool =
       result = false
   except:
     result = false
-  

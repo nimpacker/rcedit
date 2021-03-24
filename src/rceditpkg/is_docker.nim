@@ -1,17 +1,17 @@
-import os,strutils
+import os, strutils
 
-proc hasDockerEnv(): bool = 
+proc hasDockerEnv(): bool =
   try:
     result = fileExists("/.dockerenv")
   except:
     result = false
 
 
-proc hasDockerCGroup(): bool = 
+proc hasDockerCGroup(): bool =
   try:
     result = readFile("/proc/self/cgroup").contains("docker")
   except:
     result = false
 
-proc isDocker*():bool = hasDockerEnv() or hasDockerCGroup()
+proc isDocker*(): bool = hasDockerEnv() or hasDockerCGroup()
 
