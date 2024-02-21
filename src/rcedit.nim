@@ -1,8 +1,5 @@
-import options, strformat
-import os
+import std/[os, osproc, tables, options, strutils, strformat]
 import ./rcedit/is_wsl
-import tables
-import strformat, osproc, strutils
 
 const arch = $(sizeof(int)*8)
 
@@ -49,11 +46,14 @@ proc determineWineWrapper(customWinePath = none(string)): string =
 let canRunWindowsExeNatively = defined(windows) or isWSL()
 
 let pairSettings = @["version-string"]
-let singleSettings = @["file-version", "product-version", "icon", "requested-execution-level"]
+let singleSettings = @["file-version", "product-version", "icon",
+    "requested-execution-level"]
 let noPrefixSettings = @["application-manifest"]
 
-proc rcedit*(winePath: Option[string], exe: string, options: Table[string, string], pairedOptions: Table[string,
-    string] = default(Table[string, string])) =
+proc rcedit*(winePath: Option[string], exe: string, options: Table[string,
+    string], pairedOptions: Table[string,
+
+string] = default(Table[string, string])) =
   # https://github.com/electron/rcedit
   let rceditExe = if arch == "64": "rcedit-x64.exe" else: "rcedit.exe"
   let rcedit = absolutePath(currentSourcePath.parentDir / "rcedit" / "bin" / rceditExe)
@@ -69,7 +69,8 @@ proc rcedit*(winePath: Option[string], exe: string, options: Table[string, strin
       args.add([fmt"--{name}", options[name]])
   if not canRunWindowsExeNatively:
     putEnv("WINEDEBUG", "-all")
-    let cmd = determineWineWrapper(winePath) & " " & rcedit & " " & exe & " " & args.join(" ")
+    let cmd = determineWineWrapper(winePath) & " " & rcedit & " " & exe & " " &
+        args.join(" ")
     let code = execCmdEx(cmd).exitCode
     if code != 0:
       echo installInstructions()

@@ -2,6 +2,8 @@
 !**/
 !*.*
 
+src/rcedit.exe
+
 # Cache
 nimcache/
 rnimcache/
