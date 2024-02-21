@@ -74,6 +74,5 @@ proc rcedit*(winePath: Option[string], exe: string, options: Table[string, strin
     if code != 0:
       echo installInstructions()
   else:
-    doAssert execCmdEx(rcedit & " " & exe & " " & args.join(" ")).exitCode == 0
-
-
+    let (output, code) = execCmdEx(rcedit & " " & exe & " " & args.join(" "))
+    doAssert code == 0, output
